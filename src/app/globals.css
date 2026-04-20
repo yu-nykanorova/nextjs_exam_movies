@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+:root {
+  --c-brand-black: #0b0b0f;
+  --c-brand-gray: #3b3d3f;
+  --c-brand-light-gray: #b5c1cc;
+  --c-brand-light-blue: #a3e2ff;
+  --c-brand-white: #f9f8ff;
+  --font-poppins: system-ui;
+  --font-story: cursive;
+}
+
+@theme {
+  --color-brand-black: var(--c-brand-black);
+  --color-brand-white: var(--c-brand-white);
+  --font-main: var(--font-poppins);
+  --font-secondary: var(--font-story);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-black text-brand-white font-main;
+  }
+}
