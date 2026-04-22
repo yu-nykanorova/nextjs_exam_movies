@@ -1,7 +1,59 @@
-export const GenresList = () => {
+"use client";
+
+import {FC} from "react";
+import {IGenre} from "@/src/models/genre/IGenre";
+import {GenreBadge} from "@/src/components/genres/GenreBadge";
+import {useRouter, useSearchParams} from "next/navigation";
+
+type GenresListProps = {
+    genres: IGenre[];
+    selected: number[];
+}
+
+export const GenresList: FC<GenresListProps> = ({genres}) => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const handleClick = (genre: IGenre) => {
+        const newParams = new URLSearchParams(searchParams.toString());
+
+        newParams.delete("searchQuery");
+
+        const selectedGenres = newParams.get("genres");
+        const genresArray = selectedGenres ? selectedGenres.split(",") : [];
+
+        const updatedGenres = !genresArray.includes(String(genre.id))
+            ? [...genresArray, String(genre.id)]
+            : genresArray.filter(item => item !== String(genre.id));
+
+        if (updatedGenres.length) {
+            newParams.set("genres", updatedGenres.join(","));
+        } else {
+            newParams.delete("genres");
+        }
+
+        newParams.set("page", "1");
+        router.push(`/?${newParams.toString()}`);
+    };
+
     return (
         <div className="p-4 grid grid-cols-[repeat(auto-fill,minmax(120px,auto))] gap-2 whitespace-nowrap">
-            Genres List
+            {
+                genres.map(genre => (
+                    // <GenreBadge
+                    //     key={genre.id}
+                    //     genre={genre}
+                    //     className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] ${!selected.includes(genre.id) ? "text-brand-white bg-brand-gray hover:text-brand-light-blue" : "text-brand-black font-semibold bg-brand-light-blue"}`}
+                    //     onClick={() => handleClick(genre)}
+                    // />
+                    <GenreBadge
+                        key={genre.id}
+                        genre={genre}
+                        className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] text-brand-white bg-brand-gray hover:text-brand-light-blue`}
+                        onClick={() => handleClick(genre)}
+                    />
+                ))
+            }
         </div>
     );
 };

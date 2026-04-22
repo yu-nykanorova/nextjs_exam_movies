@@ -1,6 +1,8 @@
-import {IMovieShort} from "@/src/models/movie/IMovie";
+import {IMovieDetails, IMovieShort} from "@/src/models/movie/IMovie";
 import {IMovieResponse} from "@/src/models/movie/IMovieResponse";
 import {getItems} from "@/src/services/api.service";
+import {IGenre} from "@/src/models/genre/IGenre";
+import {IGenreResponse} from "@/src/models/genre/IGenreResponse";
 
 type GetMovieParams = {
     genresIds?: number[];
@@ -10,6 +12,11 @@ type GetMovieParams = {
 type MoviesResult = {
     movies: IMovieShort[];
     totalPages: number;
+}
+
+export type SearchQueryParams = {
+    query: string;
+    page: number;
 }
 
 export const moviesService = {
@@ -30,5 +37,19 @@ export const moviesService = {
             movies: response.results,
             totalPages: response.total_pages,
         }
+    },
+    getMovieById: async (id: string): Promise<IMovieDetails> => {
+        return await getItems<IMovieDetails>(`/movie/${id}`);
+    },
+    getGenres: async (): Promise<IGenre[]> => {
+        const response = await getItems<IGenreResponse>("/genre/movie/list");
+        return response.genres;
+    },
+    searchMovies: async (query: SearchQueryParams): Promise<MoviesResult> => {
+        const response = await getItems<IMovieResponse>("/search/movie", query);
+        return {
+            movies: response.results,
+            totalPages: response.total_pages,
+        };
     }
-}
+};
