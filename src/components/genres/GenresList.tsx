@@ -10,7 +10,7 @@ type GenresListProps = {
     selected: number[];
 }
 
-export const GenresList: FC<GenresListProps> = ({genres}) => {
+export const GenresList: FC<GenresListProps> = ({genres, selected}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -40,16 +40,10 @@ export const GenresList: FC<GenresListProps> = ({genres}) => {
         <div className="p-4 grid grid-cols-[repeat(auto-fill,minmax(120px,auto))] gap-2 whitespace-nowrap">
             {
                 genres.map(genre => (
-                    // <GenreBadge
-                    //     key={genre.id}
-                    //     genre={genre}
-                    //     className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] ${!selected.includes(genre.id) ? "text-brand-white bg-brand-gray hover:text-brand-light-blue" : "text-brand-black font-semibold bg-brand-light-blue"}`}
-                    //     onClick={() => handleClick(genre)}
-                    // />
                     <GenreBadge
                         key={genre.id}
                         genre={genre}
-                        className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] text-brand-white bg-brand-gray hover:text-brand-light-blue`}
+                        className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] ${!selected.includes(genre.id) ? "text-brand-white bg-brand-gray hover:text-brand-light-blue" : "text-brand-black font-semibold bg-brand-light-blue"}`}
                         onClick={() => handleClick(genre)}
                     />
                 ))

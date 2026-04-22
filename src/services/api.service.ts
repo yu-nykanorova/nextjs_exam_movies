@@ -18,7 +18,8 @@ export const getItems = async <T, >(
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${process.env.TMDB_TOKEN}`,
-        }
+        },
+        cache: "no-store",
     });
 
     if (!result.ok) {
