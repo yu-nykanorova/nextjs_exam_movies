@@ -1,21 +1,24 @@
-// import {Metadata} from "next";
-//
-// type Props = {
-//     params: {title:string};
-// }
-//
-// export const generateMetadata = async ({params}: Props):Promise<Metadata> => {
-//     const {title} = await params;
-//
-//     return {
-//         title: `${title}`,
-//     }
-// }
-//
-// export default async function MoviePage ({params}){
-//     console.log(params.title);
-//
-//     return (
-//         <>MoviePage</>
-//     );
-// };
+import {Metadata} from "next";
+import {IMovieDetails} from "@/src/models/movie/IMovie";
+
+type Props = {
+    searchParams: IMovieDetails;
+}
+
+export const generateMetadata = async ({searchParams}: Props):Promise<Metadata> => {
+    const {title} = await searchParams;
+
+    return {
+        title: `${title}`,
+    }
+}
+
+export default async function MoviePage ({searchParams}: Props){
+
+    const params = await searchParams;
+    console.log(params);
+
+    return (
+        <>MoviePage</>
+    );
+};

@@ -19,12 +19,12 @@ export const GenresList: FC<GenresListProps> = ({genres, selected}) => {
 
         newParams.delete("searchQuery");
 
-        const selectedGenres = newParams.get("genres");
-        const genresArray = selectedGenres ? selectedGenres.split(",") : [];
+        // const selectedGenres = newParams.get("genres");
+        // const genresArray = selectedGenres ? selectedGenres.split(",") : [];
 
-        const updatedGenres = !genresArray.includes(String(genre.id))
-            ? [...genresArray, String(genre.id)]
-            : genresArray.filter(item => item !== String(genre.id));
+        const updatedGenres = !selected.includes(genre.id)
+            ? [...selected, genre.id]
+            : selected.filter(item => item !== genre.id);
 
         if (updatedGenres.length) {
             newParams.set("genres", updatedGenres.join(","));
@@ -33,7 +33,9 @@ export const GenresList: FC<GenresListProps> = ({genres, selected}) => {
         }
 
         newParams.set("page", "1");
+
         router.push(`/?${newParams.toString()}`);
+        // router.refresh();
     };
 
     return (
@@ -43,7 +45,7 @@ export const GenresList: FC<GenresListProps> = ({genres, selected}) => {
                     <GenreBadge
                         key={genre.id}
                         genre={genre}
-                        className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] ${!selected.includes(genre.id) ? "text-brand-white bg-brand-gray hover:text-brand-light-blue" : "text-brand-black font-semibold bg-brand-light-blue"}`}
+                        className={`px-3 py-1 rounded-md cursor-pointer transition text-[14px] ${!selected.includes(genre.id) ? "text-brand-white bg-brand-gray hover:text-brand-light-blue hover:bg-neutral-600" : "text-brand-black font-semibold bg-brand-light-blue"}`}
                         onClick={() => handleClick(genre)}
                     />
                 ))

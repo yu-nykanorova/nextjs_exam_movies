@@ -2,6 +2,7 @@ import {MainPoster} from "@/src/components/movies/MainPoster";
 import {GenresList} from "@/src/components/genres/GenresList";
 import {MoviesList} from "@/src/components/movies/MoviesList";
 import {moviesService} from "@/src/services/movies.service";
+import {Pagination} from "@/src/components/pagination/Pagination";
 
 type SearchParams = {
     page?: string;
@@ -10,43 +11,40 @@ type SearchParams = {
 };
 
 type Props = {
-    searchParams: SearchParams;
+    searchParams: Promise<SearchParams>;
 };
 
 export default async function MoviesPage ({searchParams}: Props) {
     const params = await searchParams;
-    console.log(params);
 
     const genresList = await moviesService.getGenres();
 
-    const currentPage = Number(searchParams.page || "1");
+    const currentPage = Number(params.page || "1");
 
-    // const searchQuery = searchParams.searchQuery || "";
+    const searchQuery = params.searchQuery || "";
 
-    const paramGenres = searchParams.genres;
-
-    // console.log(paramGenres);
-
-    const selectedGenres = paramGenres
-        ? paramGenres.split(",").map(Number)
+    const selectedGenres = params.genres
+        ? params.genres.split(",").map(Number)
         : [];
 
-    console.log(selectedGenres);
-
-    const moviesData = await moviesService.getMovies({
-        page: currentPage,
-        genresIds: selectedGenres,
-    });
+    const moviesData = searchQuery
+        ? await moviesService.searchMovies({page: currentPage, query: searchQuery})
+        : await moviesService.getMovies({ page: currentPage, genresIds: selectedGenres});
 
     const moviesToShow = moviesData.movies;
+    const totalPages = moviesData.totalPages;
 
-    // console.log("searchParams:", searchParams);
+    const mainMovie = moviesToShow.length
+        ? [...moviesToShow].sort((a, b) => b.vote_average - a.vote_average)[0]
+        : null;
+
 
     return (
     <>
-        <MainPoster/>
+        <MainPoster movie={mainMovie}/>
         <GenresList genres={genresList} selected={selectedGenres}/>
         <MoviesList movies={moviesToShow}/>
+        <Pagination totalPages={totalPages}/>
     </>
   );
 }

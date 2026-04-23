@@ -11,6 +11,7 @@ export const UserInfo = () => {
                     width={48}
                     height={48}
                     className="h-full rounded-[50%]"
+                    priority
                 />
             </div>
             <div className="h-full flex flex-col items-center justify-center">
