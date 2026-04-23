@@ -12,7 +12,7 @@ type MovieProps = {
 export const MoviesListCard: FC<MovieProps> = ({movie}) => {
     return (
         <li className="pb-2 flex flex-col gap-2 bg-brand-gray rounded-md shadow-md transition hover:scale-102 hover:shadow-xl">
-            <Link href={{pathname: `movie/${movie.id.toString()}`, query:{data: JSON.stringify(movie)}}}>
+            <Link href={`movie/${movie.id.toString()}`}>
                 <PosterPreview movie={movie}/>
                 <MovieInfo movie={movie}/>
                 <StarsRating rating={movie.vote_average} votes={movie.vote_count}/>
