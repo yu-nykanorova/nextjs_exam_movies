@@ -32,7 +32,7 @@ export const Search = () => {
     }, [searchParams, reset]);
 
     const handleSearch = (data: SearchFormParams) => {
-        const newParams = new URLSearchParams(searchParams.toString());
+        const newParams = new URLSearchParams();
 
         newParams.delete("genres")
         newParams.set("page", "1");

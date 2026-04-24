@@ -2,18 +2,21 @@ import {moviesService} from "@/src/services/movies.service";
 import {getPosterUrl} from "@/src/utils/getPosterUrl";
 import {StarsRating} from "@/src/components/movies/StarsRating";
 import {GenreBadge} from "@/src/components/genres/GenreBadge";
+import Image from "next/image";
+import {Metadata} from "next";
 
 type Props = {
     params: Promise<{id: string}>;
 }
 
 export const generateMetadata = async ({params}: Props):Promise<Metadata> => {
-    const {title} = await searchParams;
+    const {id} = await params;
+    const movie = await moviesService.getMovieById(id);
 
     return {
-        title: `${title}`,
-    }
-}
+        title: movie.title,
+    };
+};
 
 export default async function MoviePage ({params}: Props){
 
@@ -28,8 +31,14 @@ export default async function MoviePage ({params}: Props){
         <>
             <div>
                 <div className="h-70 relative sm:h-100">
-                    <div className="w-full h-full">
-                        <img src={getPosterUrl(movie.backdrop_path, 780)} alt={movie.title} className="w-full h-full object-cover"/>
+                    <div className="w-full h-full relative">
+                        <Image
+                            src={getPosterUrl(movie.backdrop_path, 780)}
+                            alt={movie.title}
+                            fill
+                            className="w-full h-full object-cover"
+                            priority
+                        />
                     </div>
                     <div className="absolute w-full right-0 left-0 bottom-0 p-1 flex flex-col justify-center items-end gap-2 bg-black/40 md:p-6 md:w-2/5 md:top-0 md:left-[initial] md:gap-6">
                         <StarsRating className="flex flex-col items-end" rating={movie.vote_average} votes={movie.vote_count}/>

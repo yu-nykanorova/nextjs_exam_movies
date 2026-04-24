@@ -26,8 +26,6 @@ export const Pagination = ({totalPages}: {totalPages: number}) => {
         }
     }
 
-    console.log(totalPages);
-
     return (
         <div className="max-w-100 mx-auto my-8 p-4 flex items-center justify-center gap-6">
             <button

@@ -16,7 +16,7 @@ export const MainPoster: FC<MainPosterProps> = ({movie}) => {
     return (
         <>
             <div className="h-70 relative sm:h-100">
-                <div className="h-full">
+                <div className="h-full relative">
                     <Image
                         src={getPosterUrl(movie.backdrop_path, 780)}
                         alt={movie.title}
