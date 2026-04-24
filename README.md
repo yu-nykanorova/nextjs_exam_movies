@@ -19,7 +19,7 @@ The project focuses on working with external APIs, server-side rendering, routin
 ### 1) Clone the repository
 ```bash
 git clone git@github.com:yu-nykanorova/nextjs_exam_movies.git
-cd movies-app
+cd nextjs_exam_movies
 ```
 ### 2) Install dependencies
 ```bash
