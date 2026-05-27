@@ -38,7 +38,6 @@ export default async function MoviesPage({searchParams}: Props) {
             <Suspense key={pageKey} fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
                 <MoviesList page={currentPage} genres={genresList} selectedGenres={selectedGenres} searchQuery={searchQuery} />
             </Suspense>
-
         </main>
     );
 }

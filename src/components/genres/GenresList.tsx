@@ -16,6 +16,8 @@ export default function GenresList({ selectedIds, genres }: GenresListProps){
     const handleClick = (id: number) => {
         const newParams = new URLSearchParams(searchParams.toString());
 
+        newParams.delete("searchQuery");
+
         const updatedGenres = selectedIds.includes(id)
             ? selectedIds.filter(itemId => itemId !== id)
             : [...selectedIds, id];
