@@ -6,8 +6,6 @@
   --c-brand-light-gray: #b5c1cc;
   --c-brand-light-blue: #a3e2ff;
   --c-brand-white: #f9f8ff;
-  --font-poppins: inherit;
-  --font-lobster: inherit;
 }
 
 @theme {
@@ -26,9 +24,14 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-poppins), Arial, sans-serif;
+/* loader */
+.loader {
+  width: calc(80px / cos(45deg));
+  height: 14px;
+  background: repeating-linear-gradient(-45deg,#fff 0 15px, #6db1ef 0 20px) left/200% 100%;
+  animation: l3 2s infinite linear;
+}
+@keyframes l3 {
+  100% {background-position:right}
 }
 

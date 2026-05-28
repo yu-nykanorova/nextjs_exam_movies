@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Lobster } from "next/font/google";
 import "./globals.css";
 import Header from "@/src/components/header/Header";
+import Sidebar from "@/src/components/sidebar/Sidebar";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -30,11 +31,15 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${lobster.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body
+          style={{ backgroundImage: "url('/images/movie-bg.webp')" }}
+          className="min-h-full text-brand-white bg-cover bg-center bg-fixed"
+          suppressHydrationWarning={true}
+      >
         <div className="max-w-300 min-h-screen mx-auto flex flex-col">
           <Header/>
           <div className="flex flex-1 gap-0">
-            {/*<Sidebar/>*/}
+            <Sidebar/>
             <main className="flex-1 mt-18 bg-linear-to-r from-[#202022] via-[#212126] via-40% to-[#17171A]">
               {children}
             </main>

@@ -1,16 +1,18 @@
 import {Suspense} from "react";
 import Search from "@/src/components/search/Search";
+import UserInfo from "@/src/components/user/UserInfo";
+import Logo from "@/src/components/logo/Logo";
 
 export default function Header(){
     return (
         <header className="w-full h-18 fixed top-0 z-10">
             <div className="max-w-300 h-full px-4 py-2 flex items-center justify-between bg-brand-black shadow-[0_3px_6px_rgba(20,20,20,0.6),0_1px_0_rgba(255,255,255,0.04)]">
-                {/*<Logo/>*/}
+                <Logo/>
                 <div className="h-full flex items-center justify-between gap-8">
                     <Suspense fallback={<div>Loading filters...</div>}>
                         <Search/>
                     </Suspense>
-                    {/*<UserInfo/>*/}
+                    <UserInfo/>
                 </div>
             </div>
         </header>

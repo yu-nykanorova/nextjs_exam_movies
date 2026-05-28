@@ -2,6 +2,9 @@ import { Suspense } from 'react';
 import GenresList from '../components/genres/GenresList';
 import MoviesList from '../components/movies/MoviesList';
 import {moviesService} from "@/src/services/movies.service";
+import Pagination from "@/src/components/pagination/Pagination";
+import MainPoster from "@/src/components/movies/MainPoster";
+import Loading from "@/src/app/loading";
 
 type SearchParams = {
     page?: string;
@@ -29,15 +32,25 @@ export default async function MoviesPage({searchParams}: Props) {
         ? params.genres.split(",").map(Number)
         : [];
 
+    const moviesData = searchQuery
+        ? await moviesService.searchMovies({page: currentPage, query: searchQuery})
+        : await moviesService.getMovies({ page: currentPage, genresIds: selectedGenres});
+
+    const moviesToShow = moviesData.movies;
+    const totalPages = moviesData.totalPages;
+
+    const mainMovie = moviesToShow.length
+        ? [...moviesToShow].sort((a, b) => b.vote_average - a.vote_average)[0]
+        : null;
+
     return (
-        <main className="p-8 max-w-5xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8">Movies</h1>
-
+        <>
+            <MainPoster movie={mainMovie}/>
             <GenresList selectedIds={selectedGenres} genres={genresList} />
-
-            <Suspense key={pageKey} fallback={<div className="h-64 flex items-center justify-center">Loading...</div>}>
-                <MoviesList page={currentPage} genres={genresList} selectedGenres={selectedGenres} searchQuery={searchQuery} />
+            <Suspense key={pageKey} fallback={<div className="h-80 flex items-center justify-center"><Loading/></div>}>
+                <MoviesList movies={moviesToShow} genres={genresList} />
             </Suspense>
-        </main>
+            <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </>
     );
-}
+};

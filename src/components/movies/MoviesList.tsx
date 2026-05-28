@@ -1,34 +1,23 @@
 import MoviesListCard from './movie-card/MoviesListCard';
 import {IGenre} from "@/src/models/genre/IGenre";
-import {moviesService} from "@/src/services/movies.service";
-import Pagination from "@/src/components/pagination/Pagination";
+import {IMovieShort} from "@/src/models/movie/IMovie";
 
 type MoviesProps = {
-    page: number;
+    movies: IMovieShort[];
     genres: IGenre[];
-    selectedGenres: number[];
-    searchQuery: string;
 }
 
-export default async function MoviesList({ page, genres, searchQuery, selectedGenres }: MoviesProps) {
-
-    const moviesData = searchQuery
-        ? await moviesService.searchMovies({page: page, query: searchQuery})
-        : await moviesService.getMovies({ page: page, genresIds: selectedGenres});
-
-    const moviesToShow = moviesData.movies;
-    const totalPages = moviesData.totalPages;
+export default async function MoviesList({ movies, genres }: MoviesProps) {
 
     return (
         <>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ul className="p-4 grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
                 {
-                    moviesToShow.map(movie => (
+                    movies.map(movie => (
                         <MoviesListCard key={movie.id} movie={movie} genres={genres}/>
                     ))
                 }
             </ul>
-            <Pagination currentPage={Number(page)} totalPages={totalPages} />
         </>
 
     );
