@@ -17,7 +17,6 @@ export default function MoviesListCard({ movie, genres }: MovieProps) {
                 <PosterPreview movie={movie}/>
                 <MovieInfo movie={movie} genres={genres}/>
                 <StarsRating rating={movie.vote_average} votes={movie.vote_count}/>
-                {movie.title}
             </Link>
         </li>
     );
